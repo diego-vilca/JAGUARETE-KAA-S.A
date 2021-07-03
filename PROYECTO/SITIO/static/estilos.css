@@ -9,6 +9,12 @@
     margin: 10px;
 }
 
+/* #buscador{
+  display: block;
+    float: right;
+} */
+
+
 .publicacion_fecha{
     font-size: 14px;
     color: gray;
