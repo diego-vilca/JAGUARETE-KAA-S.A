@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JAGUARETE S.A.</title>
+        <link rel="stylesheet" href="{% static 'estilos.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <!-- <script src="{% static 'scripts.js' %}"></script> -->
+    </head>
+    <body>
+        <div class="container d-flex flex-column min-vh-100">
+
+            <!-- Encabezado -->
+            <header>
+                <div id="bloque_login">
+                        <a role="button" class="btn btn-outline-success btn-sm" href="">LOGIN</a>
+                        <a role="button" class="btn btn-outline-success btn-sm" href="">REGISTRO</a>
+                    
+                </div>
+                <h1>JAGUARETE S.A.</h1>
+            </header>
+
+            <!-- Menu -->
+            <nav id="menu_principal" class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SITIO:index' %}">
+                            HOME
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            CATEGORIAS
+                            </a>
+                            <!-- <div class="dropdown-menu">
+                                {% for seccion in lista_secciones %}
+                                    <a class="dropdown-item" href="{% url 'sitio:filtro_secciones' seccion.id%}">{{ seccion }}</a>
+                                {% endfor %}
+                            </div> -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SITIO:index' %}">
+                            ACERCA DE
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SITIO:index' %}">
+                            CONTACTO
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SITIO:index' %}">
+                            NUEVO PRODUCTO
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SITIO:index' %}">
+                            SEARCH
+                        </a>
+                    </li>
+                <ul>
+            </nav>
+
+            {% block content %}
+            {% endblock %}
+            
+            <!-- Footer -->
+            <footer class="footer mt-auto text-faded text-center py-5 bg-light">
+                <div class="container">
+                <p class="m-0 mbt">
+                    All rights reserved &copy; 2021 Jagurate KAA S.A.
+                </p>
+                <p class="m-0 mbt1">Developed by<a href=""> Diego Vilca</a></p>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
