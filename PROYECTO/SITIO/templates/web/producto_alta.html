@@ -1,9 +1,11 @@
 {% extends "web/layout.html" %}
 
 {% block content %}
-<br><br>
-<h3>Alta de Productos</h3>
-<br><br>
+<br>
+<div style="text-align: center;">
+    <h2>ALTA DE PRODUCTOS</h2>
+</div>
+<br><br><br>
 <form enctype="multipart/form-data" action="{% url 'SITIO:producto_alta' %}" method="post" >
     {% csrf_token %}
     <div class="form-group row">

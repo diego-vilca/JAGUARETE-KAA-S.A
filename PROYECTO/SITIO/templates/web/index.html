@@ -2,14 +2,14 @@
 {% block content %}
 <!-- <h1>contenido del index</h1> -->
 <div class="row">
-{% for producto in lista_productos %}
+{% for producto in lista_productos_imagenes %}
 
-    <div class="col-md-2">
+    <div class="col-md-4">
 
         <div class="card" style="width: 100%; margin: 5px;">
             <img src="{{producto.imagen.url}}" class="card-img-top">
             <div class="card-body" style="text-align: center;">
-                <a role="button" class="btn btn-success btn-sm" href="">VER</a>
+                <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto' producto.id %}">VER PRODUCTO</a>
             </div>
         </div>
 
@@ -17,4 +17,27 @@
 
 {% endfor %}
 </div>
+<br><br>
+
+<div style="text-align: center;">
+    <h2>MAS PRODUCTOS</h2>
+</div>
+<br><br>
+
+<ul>
+    {% for producto in lista_productos %}
+        <li>              
+            <a href="{% url 'SITIO:producto' producto.id %}">
+                {{producto.titulo}} 
+            </a>
+            <a href="{% url 'SITIO:producto' producto.id %}">
+                #{{producto.id}}: 
+            </a>
+            {{producto.descripcion_producto}}
+            <br><br>
+        </li>
+    
+    {% endfor %}
+</ul>
+
 {% endblock %}

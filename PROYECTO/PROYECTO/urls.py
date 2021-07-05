@@ -22,4 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("SITIO.urls")),
     path('SITIO/', include("SITIO.urls")),
+    #necesario para redireccionar las vistas de autentificacion
+    path('accounts/', include('django.contrib.auth.urls')),
+    #gestiono el formulario de registro mediante una nueva app
+    path('registrarse/', include('USUARIOS.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,23 +9,24 @@ from .forms import *
 def index(request):
     if "carrito" not in request.session:
         request.session["carrito"] = []
+
+    
+    lista_productos = Producto.objects.all()
+    #devuelvo la lista invertida
+    lista_invertida = lista_productos[::-1]
+    #seteo los ultimos 3 productos en una lista
+    lista_imagenes = lista_invertida[0:3]
+    #seteo los productos del 4 al 10
+    lista_plana = lista_invertida[3:10]
+    
     return render(request,"web/index.html", {
-        "lista_productos": Producto.objects.all(),
+        "lista_productos_imagenes": lista_imagenes,
+        "lista_productos": lista_plana,
+        #paso las categorias para el menu
         "lista_categorias": Categoria.objects.all(),
         "carrito": request.session["carrito"],
     })
 
-# def producto_alta(request):
-#     #VueloForm = modelform_factory(Vuelo, fields=("origen", "destino", "duracion"))
-#     if request.method == "POST":
-#         form = FormProductoCustom(request.POST)
-#         if form.is_valid():
-#             form.save()
-#     else:
-#         form = FormProductoCustom()
-#         return render(request, "web/producto_alta.html", {
-#             "form": form,
-#         })
 
 def producto_alta(request):
     if request.method == "POST":
@@ -37,6 +38,15 @@ def producto_alta(request):
     else:
         form = FormProductoCustom()
         return render(request, "web/producto_alta.html", {
-            "form": form
+            "form": form,
+            #paso las categorias para el menu
+            "lista_categorias": Categoria.objects.all(),
         })
         
+def producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    return render(request, "web/producto.html", {
+        "producto": producto,
+        #paso las categorias para el menu
+        "lista_categorias": Categoria.objects.all(),
+    })
