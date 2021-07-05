@@ -22,10 +22,10 @@
                 <div id="bloque_login">
                     {% if user.is_authenticated %}
                         Estas conectado como:  <b>{{ user.get_username }}</b> <a role="button" class="btn btn-outline-warning btn-sm" href="{% url 'logout'%}?next={{request.path}}">LOGOUT</a>
+                        <a role="button" class="btn btn-outline-success btn-sm" href="">CARRITO</a>
                     {% else %}                  
                         <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'login'%}?next={{request.path}}">LOGIN</a>
                         <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'USUARIOS:registrarse' %}">REGISTRO</a>
-                        <a role="button" class="btn btn-outline-success btn-sm" href="">CARRITO</a>
                     {% endif %}
                 </div>
                 
@@ -56,7 +56,7 @@
                             </a>
                             <div class="dropdown-menu">
                                 {% for categoria in lista_categorias %}
-                                    <a class="dropdown-item" href="">{{ categoria }}</a>
+                                    <a class="dropdown-item" href="{% url 'SITIO:buscador' categoria.id %}">{{ categoria }}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -73,13 +73,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        {% if perms.SITIO.add_producto %}
                         <a class="nav-link" href="{% url 'SITIO:producto_alta' %}">
                             NUEVO PRODUCTO
                         </a>
+                        {% endif %}
                     </li>
                   </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                  <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'SITIO:buscador'  %}">
+                    {% csrf_token %}
+                    <input name="busqueda" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit">BUSCAR</button>
                   </form>
                 </div>

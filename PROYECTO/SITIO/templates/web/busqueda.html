@@ -1,0 +1,29 @@
+{% extends "web/layout.html" %}
+{% block content %}
+<center>
+    {% if busqueda %}
+        <h1>Ud busco {{ busqueda }}</h1>
+        <ul>
+            {% for coincidencia in resultado %}
+            <li>
+                <a href="{% url 'SITIO:producto' coincidencia.id %}">
+                    {{coincidencia}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</center>
+<center>
+    {% if categoria_seleccionada%}
+    <h1>{{categoria_seleccionada}}</h1>
+    {% for producto in lista_productos %}
+        <li>
+            <a href="{% url 'SITIO:producto' producto.id %}">
+                {{producto}}
+            </a>
+        </li>
+    {% endfor %}
+    {% endif %}
+</center>
+{% endblock %}
