@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -68,22 +69,22 @@ def producto_editar(request, producto_id):
     else:
         form = FormProductoCustom(instance = un_producto)
         return render(request, 'web/producto_editar.html', {
-            "producto": un_producto,
             "form": form,
+            #paso el producto para mostrar la imagen
+            "producto": un_producto,
             #paso las categorias para el menu
             "lista_categorias": Categoria.objects.all(),
         })
 
 
-
 def buscador(request, categoria_id=""):
-    # return render(request, 'web/busqueda.html', {
-    #     "categoria":categoria_id
-    # })
     if request.method == "POST":
         busqueda = request.POST['busqueda']
-        resultado = Producto.objects.filter(titulo__contains=busqueda)
-        #resultado_contenido = Producto.objects.filter(descripcion_producto__contains=busqueda)
+        #esta linea funciona
+        # resultado = Producto.objects.filter(titulo__contains=busqueda)
+
+        #el modulo Q permite me permite utilizar and/or en las consultas, distinct() me elimina las filas duplicadas
+        resultado = Producto.objects.filter( Q(titulo__icontains = busqueda) | Q(descripcion_producto__icontains = busqueda)).distinct()
         
 
         return render(request, "web/busqueda.html", {
@@ -103,6 +104,12 @@ def buscador(request, categoria_id=""):
             "categoria_seleccionada": una_categoria
 
         })
+
+def acerca_de(request):
+    return render(request,"web/acerca_de.html", {
+        # paso las categorias para el menu
+        "lista_categorias": Categoria.objects.all(),
+    })
 
 @permission_required('SITIO.add_carrito')
 def carrito(request, producto_id):
