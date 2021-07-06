@@ -1,0 +1,35 @@
+{% extends "web/layout.html" %}
+
+{% block content %}
+<br>
+<div style="text-align: center;">
+    <h2>MODIFICAR PRODUCTOS</h2>
+</div>
+<br><br><br>
+<form enctype="multipart/form-data" action="{% url 'SITIO:producto_editar' producto.id%}" method="post" >
+    {% csrf_token %}
+    <div class="form-group row">
+        <label for="categoria_input"  class="col-sm-2 col-form-label">Categoria:</label> {{ form.categoria }} {{ form.categoria.errors }}
+    </div>
+    <div class="form-group row">
+        <label for="titulo_input"  class="col-sm-2 col-form-label">Titulo:</label> {{ form.titulo }} {{ form.titulo.errors }}
+    </div>
+    <div class="form-group row">
+        <label for="titulo_input"  class="col-sm-2 col-form-label">Precio:</label> {{ form.precio }} {{ form.precio.errors }}
+    </div>
+    <div class="form-group row">
+        <label for="imagen_input"  class="col-sm-2 col-form-label">Imagen Adjunta:</label> {{ form.imagen }} {{ form.imagen.errors }}
+    </div>
+    <br>
+    <div class="form-group row"  class="col-sm-2 col-form-label">
+        <label for="descripcion_input">&nbsp;&nbsp;&nbsp;Descripcion:&nbsp;&nbsp;&nbsp;&nbsp;</label><br> {{ form.descripcion_producto }} {{ form.descripcion_producto.errors }}
+        <script>$("#id_descripcion").removeAttr("required");</script>
+    </div>
+    <div class="col-auto">
+        <a class="btn btn-secondary" type="button" href="{% url 'SITIO:index'%}">Volver</a>
+        <input type="submit" class="btn btn-primary" value="Editar">
+    </div>
+    
+</form>
+<a href="{% url 'SITIO:index'%}">Volver</a>
+{% endblock %}

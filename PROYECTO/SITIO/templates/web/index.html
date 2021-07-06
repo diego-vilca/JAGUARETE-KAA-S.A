@@ -9,7 +9,11 @@
         <div class="card" style="width: 100%; margin: 5px;">
             <img src="{{producto.imagen.url}}" class="card-img-top">
             <div class="card-body" style="text-align: center;">
-                <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto' producto.id %}">VER PRODUCTO</a>
+                {% if perms.SITIO.change_producto %}
+                    <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto_editar' producto.id %}">VER PRODUCTO</a>
+                {% else %}
+                    <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto' producto.id %}">VER PRODUCTO</a>
+                {% endif %}
             </div>
         </div>
 
@@ -27,12 +31,16 @@
 <ul>
     {% for producto in lista_productos %}
         <li>              
-            <a href="{% url 'SITIO:producto' producto.id %}">
-                {{producto.titulo}} 
-            </a>
-            <a href="{% url 'SITIO:producto' producto.id %}">
-                #{{producto.id}}: 
-            </a>
+            {% if perms.SITIO.change_producto %}
+                <a href="{% url 'SITIO:producto_editar' producto.id %}">
+                    {{producto.titulo}} 
+                </a>
+            {% else %}
+                <a href="{% url 'SITIO:producto' producto.id %}">
+                    {{producto.titulo}} 
+                </a>
+            {% endif %}
+            
             {{producto.descripcion_producto}}
             <br><br>
         </li>

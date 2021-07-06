@@ -29,6 +29,18 @@ def index(request):
         "carrito": request.session["carrito"],
     })
 
+
+
+def producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    return render(request, "web/producto.html", {
+        "producto": producto,
+        #paso las categorias para el menu
+        "lista_categorias": Categoria.objects.all(),
+    })
+
+
+
 @permission_required('SITIO.add_producto')
 def producto_alta(request):
     if request.method == "POST":
@@ -45,18 +57,23 @@ def producto_alta(request):
             "lista_categorias": Categoria.objects.all(),
         })
 
+@permission_required('SITIO.change_producto')
+def producto_editar(request, producto_id):
+    un_producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == "POST":  
+        form = FormProductoCustom(data=request.POST, files=request.FILES, instance=un_producto)
+        if form.is_valid():
+            form.save()
+            return redirect("SITIO:index")
+    else:
+        form = FormProductoCustom(instance = un_producto)
+        return render(request, 'web/producto_editar.html', {
+            "producto": un_producto,
+            "form": form,
+            #paso las categorias para el menu
+            "lista_categorias": Categoria.objects.all(),
+        })
 
-def producto(request, producto_id):
-    producto = get_object_or_404(Producto, id=producto_id)
-    return render(request, "web/producto.html", {
-        "producto": producto,
-        #paso las categorias para el menu
-        "lista_categorias": Categoria.objects.all(),
-    })
-
-@permission_required('SITIO.add_carrito')
-def carrito(request, producto_id):
-    pass
 
 
 def buscador(request, categoria_id=""):
@@ -86,3 +103,7 @@ def buscador(request, categoria_id=""):
             "categoria_seleccionada": una_categoria
 
         })
+
+@permission_required('SITIO.add_carrito')
+def carrito(request, producto_id):
+    pass
