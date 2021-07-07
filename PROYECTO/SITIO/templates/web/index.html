@@ -10,8 +10,10 @@
             <img src="{{producto.imagen.url}}" class="card-img-top">
             <div class="card-body" style="text-align: center;">
                 {% if perms.SITIO.change_producto %}
+                
                     <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto_editar' producto.id %}">VER PRODUCTO</a>
                 {% else %}
+                    
                     <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:producto' producto.id %}">VER PRODUCTO</a>
                 {% endif %}
             </div>
@@ -28,20 +30,35 @@
 </div>
 <br><br>
 
-<ul>
+<ul style="list-style:none">
     {% for producto in lista_productos %}
         <li>              
-            {% if perms.SITIO.change_producto %}
+            <div class="d-flex justify-content-between">
+                <div>
+                {% if perms.SITIO.change_producto %}
                 <a href="{% url 'SITIO:producto_editar' producto.id %}">
-                    {{producto.titulo}} 
+                    <img src="{{producto.imagen.url}}" class="card-img-top" style="width: 120px">
                 </a>
-            {% else %}
+                {% else %}
                 <a href="{% url 'SITIO:producto' producto.id %}">
-                    {{producto.titulo}} 
+                    <img src="{{producto.imagen.url}}" class="card-img-top" style="width: 120px">
                 </a>
-            {% endif %}
-            
-            {{producto.descripcion_producto}}
+                {% endif %}
+                </div>   
+                <div class="d-flex flex-column justify-content-center pl-4">
+                {% if perms.SITIO.change_producto %}
+                    <a href="{% url 'SITIO:producto_editar' producto.id %}">
+                        {{producto.titulo}} 
+                    </a>
+                {% else %}
+                    <a href="{% url 'SITIO:producto' producto.id %}">
+                        {{producto.titulo}} 
+                    </a>
+                {% endif %}
+                
+                {{producto.descripcion_producto |safe}}
+                <div>
+            </div>
             <br><br>
         </li>
     

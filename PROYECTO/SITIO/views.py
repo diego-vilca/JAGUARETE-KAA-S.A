@@ -120,7 +120,7 @@ def acerca_de(request):
 @login_required
 @permission_required('SITIO.add_carrito')
 def carrito(request, producto_id=''):
-    
+
     #si entra un producto_id...
     if producto_id:
         carrito = Carrito.objects.filter(usuario=request.user.id).first()
@@ -156,20 +156,65 @@ def carrito(request, producto_id=''):
         return render(request,"web/carrito.html", {
             # paso las categorias para el menu
             "lista_categorias": Categoria.objects.all(),
-            "lista_carrito": carrito.lista_productos,
+            "lista_carrito": carrito.lista_productos.all(),
         })
     else:
-        pass
+        carrito = Carrito.objects.filter(usuario=request.user.id).first()
+        mensaje = ""
+
+        if carrito:
+            lista_carrito = carrito.lista_productos
+
+            return render(request,"web/carrito.html", {
+            # paso las categorias para el menu
+            "lista_categorias": Categoria.objects.all(),
+            "lista_carrito": lista_carrito.all(),
+            "mensaje": mensaje
+        })
+        else:
+            mensaje = "Ud no tiene ningún producto en el carrito"
+
+            return render(request,"web/carrito.html", {
+            # paso las categorias para el menu
+            "lista_categorias": Categoria.objects.all(),
+            "mensaje": mensaje
+        })
+            
+
+        
 
 
-def eliminar_carrito(request):
-    carrito = Carrito.objects.filter(usuario=request.user.id).first()
 
-    for producto in carrito.lista_productos.all():
-        carrito.productos.remove(producto)
+def carrito_eliminar(request, producto_id=""):
+    if producto_id:
+        carrito = Carrito.objects.filter(usuario=request.user.id).first()
+        producto = Producto.objects.get(id=producto_id)
 
-    carrito.total = 0
-    carrito.save()
+        for item in carrito.lista_productos.all():
+            if item == producto:
+                carrito.lista_productos.remove(item)
+                
+        lista_carrito = carrito.lista_productos
 
-    return redirect(to="carrito")
+        return render(request,"web/carrito.html", {
+                # paso las categorias para el menu
+                "lista_categorias": Categoria.objects.all(),
+                "lista_carrito": lista_carrito.all(),
+            })
+
+        
+    else:
+        carrito = Carrito.objects.filter(usuario=request.user.id).first()
+        
+        
+        carrito.delete()
+
+        mensaje = "Ud no tiene ningún producto en el carrito"
+
+        return render(request,"web/carrito.html", {
+                # paso las categorias para el menu
+                "lista_categorias": Categoria.objects.all(),
+                "mensaje": mensaje,
+            })
+        
             
