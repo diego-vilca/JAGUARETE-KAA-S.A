@@ -24,8 +24,8 @@ class Producto(models.Model):
 
 class Carrito(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="usuario")
-    lista_productos = models.ManyToManyField(Producto)
-    total_carrito = models.FloatField()
+    lista_productos = models.ManyToManyField(Producto, blank=True, null=True, related_name="carrito")
+    total_carrito = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.usuario} - {self.lista_productos}"

@@ -1,4 +1,6 @@
+from functools import total_ordering
 from SITIO.models import Categoria
+from SITIO.models import Carrito
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -76,6 +78,10 @@ def producto_editar(request, producto_id):
             "lista_categorias": Categoria.objects.all(),
         })
 
+def producto_eliminar(request, producto_id):
+    un_producto = get_object_or_404(Producto, id=producto_id)
+    un_producto.delete()
+    return redirect("SITIO:index")
 
 def buscador(request, categoria_id=""):
     if request.method == "POST":
@@ -111,6 +117,59 @@ def acerca_de(request):
         "lista_categorias": Categoria.objects.all(),
     })
 
+@login_required
 @permission_required('SITIO.add_carrito')
-def carrito(request, producto_id):
-    pass
+def carrito(request, producto_id=''):
+    
+    #si entra un producto_id...
+    if producto_id:
+        carrito = Carrito.objects.filter(usuario=request.user.id).first()
+        producto = Producto.objects.get(id=producto_id)
+        
+
+        #si el carrito del usuario existe...
+        if carrito:
+            if not producto in carrito.lista_productos.all():
+                carrito.lista_productos.add(producto)
+            else:
+                carrito.lista_productos.remove(producto)
+
+            #actualizo el precio total
+            total = 0 
+            for item in carrito.lista_productos.all():
+                total += item.precio
+
+            carrito.total_carrito = total
+        
+            #guardo el carrito
+            carrito.save()
+
+        else:
+            usuario = User.objects.get(username=request.user)
+            carrito = Carrito.objects.create(usuario = usuario)
+            carrito.save()
+
+            carrito.lista_productos.add(producto)
+            carrito.total_carrito = producto.precio
+
+
+        return render(request,"web/carrito.html", {
+            # paso las categorias para el menu
+            "lista_categorias": Categoria.objects.all(),
+            "lista_carrito": carrito.lista_productos,
+        })
+    else:
+        pass
+
+
+def eliminar_carrito(request):
+    carrito = Carrito.objects.filter(usuario=request.user.id).first()
+
+    for producto in carrito.lista_productos.all():
+        carrito.productos.remove(producto)
+
+    carrito.total = 0
+    carrito.save()
+
+    return redirect(to="carrito")
+            

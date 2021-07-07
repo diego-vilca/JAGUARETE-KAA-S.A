@@ -29,6 +29,7 @@
     <div class="col-auto">
         <a class="btn btn-secondary" type="button" href="{% url 'SITIO:index'%}">Volver</a>
         <input type="submit" class="btn btn-primary" value="Editar">
+        <a type="button" class="btn btn-primary"  href="{% url 'SITIO:producto_eliminar' producto.id%}">Eliminar</a>
     </div>
     
 </form>
