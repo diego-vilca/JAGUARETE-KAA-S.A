@@ -21,7 +21,7 @@
             <header>
                 <div id="bloque_login">
                     {% if user.is_authenticated %}
-                        Estas conectado como:  <b>{{ user.get_username }}</b> <a role="button" class="btn btn-outline-warning btn-sm" href="{% url 'logout'%}?next={{request.path}}">LOGOUT</a>
+                        Estas conectado como:  <b>{{ user.get_username }}</b> <a role="button" class="btn btn-outline-warning btn-sm ml-2" href="{% url 'logout'%}?next={{request.path}}">LOGOUT</a>
                         {% if perms.SITIO.view_carrito %}
                         <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'SITIO:carrito' %}">CARRITO</a>
                         {% endif %}
@@ -84,7 +84,7 @@
                   </ul>
                   <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'SITIO:buscador'  %}">
                     {% csrf_token %}
-                    <input name="busqueda" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <input name="busqueda" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" required>
                     <button class="btn btn-success my-2 my-sm-0" type="submit">BUSCAR</button>
                   </form>
                 </div>

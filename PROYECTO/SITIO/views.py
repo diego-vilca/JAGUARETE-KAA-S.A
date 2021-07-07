@@ -78,10 +78,14 @@ def producto_editar(request, producto_id):
             "lista_categorias": Categoria.objects.all(),
         })
 
+
+
 def producto_eliminar(request, producto_id):
     un_producto = get_object_or_404(Producto, id=producto_id)
     un_producto.delete()
     return redirect("SITIO:index")
+
+
 
 def buscador(request, categoria_id=""):
     if request.method == "POST":
@@ -157,6 +161,7 @@ def carrito(request, producto_id=''):
             # paso las categorias para el menu
             "lista_categorias": Categoria.objects.all(),
             "lista_carrito": carrito.lista_productos.all(),
+            "total":carrito.total_carrito
         })
     else:
         carrito = Carrito.objects.filter(usuario=request.user.id).first()
@@ -165,10 +170,13 @@ def carrito(request, producto_id=''):
         if carrito:
             lista_carrito = carrito.lista_productos
 
+            total = carrito.total_carrito
+
             return render(request,"web/carrito.html", {
             # paso las categorias para el menu
             "lista_categorias": Categoria.objects.all(),
             "lista_carrito": lista_carrito.all(),
+            "total": total,
             "mensaje": mensaje
         })
         else:
@@ -193,13 +201,24 @@ def carrito_eliminar(request, producto_id=""):
         for item in carrito.lista_productos.all():
             if item == producto:
                 carrito.lista_productos.remove(item)
-                
+        
+        carrito.save()
+        #paso la lista de productos acrualizada
         lista_carrito = carrito.lista_productos
+
+        #recalculo el precio total y lo paso
+        total = 0 
+        for item in carrito.lista_productos.all():
+            total += item.precio
+        
+
+            
 
         return render(request,"web/carrito.html", {
                 # paso las categorias para el menu
                 "lista_categorias": Categoria.objects.all(),
                 "lista_carrito": lista_carrito.all(),
+                "total": total
             })
 
         
@@ -208,7 +227,7 @@ def carrito_eliminar(request, producto_id=""):
         
         
         carrito.delete()
-
+        
         mensaje = "Ud no tiene ningún producto en el carrito"
 
         return render(request,"web/carrito.html", {

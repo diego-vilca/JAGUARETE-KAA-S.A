@@ -4,23 +4,54 @@
 
 <div>
     <h2>{{ mensaje }}</h2>
-    
+    <br>
     {% if lista_carrito %}
     
         {% for producto in lista_carrito %}
-            <ul>
-                <li>{{ producto.titulo }}<a role="button" class="btn btn-outline-success btn-sm" href="{% url 'SITIO:carrito_eliminar' producto.id %}">X</a></li>
+            <ul style="list-style:none; margin:0">
+                <li>
+                    <div class="d-flex">
+                        <div class="col-8">
+                            <a href="{% url 'SITIO:producto' producto.id %}">
+                                <img src="{{producto.imagen.url}}" class="card-img-top" style="width: 120px">
+                            </a>
+                            <a href="{% url 'SITIO:producto' producto.id %}">{{ producto.titulo }}</a>
+                        </div>
+                        <div class="col-2 d-flex flex-column justify-content-center pb-1">
+                            ${{producto.precio |floatformat:2}}
+                        </div>
+                        <div class="col-2 d-flex  justify-content-start">
+                            <div class="d-flex flex-column justify-content-center">
+                                <a role="button" class="btn btn-outline-danger btn-sm d-flex" href="{% url 'SITIO:carrito_eliminar' producto.id %}">X</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         {% endfor %}
-    <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:carrito_eliminar' %}">VACIAR CARRO</a>
-    <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:index' %}">HOME</a>
+        <br>
+    <div class="d-flex  justify-content-end">
+        <div class="col-4"><b>TOTAL: ${{total |floatformat:2}}</b></div>
+    </div>
+    <br><br><br>
+    <div class="d-flex  justify-content-center">
+        <div class="col-7 d-flex justify-content-end p-0">
+            <a role="button" class="btn btn-danger btn-sm ml-2" href="{% url 'SITIO:carrito_eliminar' %}">VACIAR CARRITO</a>
+            <a role="button" class="btn btn-primary btn-sm ml-2" href="{% url 'SITIO:index' %}">FINALIZAR COMPRA</a>
+            <a role="button" class="btn btn-success btn-sm ml-2" href="{% url 'SITIO:index' %}">HOME</a>
+        </div>
+    </div>
     {% else %}
-    <a role="button" class="btn btn-success btn-sm" href="{% url 'SITIO:index' %}">HOME</a>
+    
+        <div class="d-flex justify-content-start">
+            <a role="button" class="btn btn-success btn-sm ml-2" href="{% url 'SITIO:index' %}">HOME</a>
+        </div>
+    
+    
 
     {% endif %}
     
 </div>
-
+<br><br>
 {% endblock %}
 
-<h1>{{ variable }}</h1>

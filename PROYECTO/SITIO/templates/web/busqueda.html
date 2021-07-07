@@ -1,29 +1,53 @@
 {% extends "web/layout.html" %}
 {% block content %}
+
+<!-- filtro a traves de la caja de busqueda -->
+{% if busqueda %}
+    <h2>Ud busco: {{ busqueda }}</h2><br>
+    <ul style="list-style:none">
+        {% for coincidencia in resultado %}
+        <li>
+            <div class="d-flex">
+                <div>
+                    <a href="{% url 'SITIO:producto' coincidencia.id %}">
+                        <img src="{{coincidencia.imagen.url}}" class="card-img-top" style="width: 120px">
+                    </a>
+                </div>   
+                <div class="d-flex flex-column justify-content-center pl-4">
+                    <a href="{% url 'SITIO:producto' coincidencia.id %}">
+                        {{coincidencia.titulo}}
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+
 <center>
-    {% if busqueda %}
-        <h1>Ud busco {{ busqueda }}</h1>
-        <ul>
-            {% for coincidencia in resultado %}
-            <li>
-                <a href="{% url 'SITIO:producto' coincidencia.id %}">
-                    {{coincidencia}}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</center>
-<center>
+    <!-- filtro a traves de la categoria seleccionada -->
     {% if categoria_seleccionada%}
-    <h1>{{categoria_seleccionada}}</h1>
+    <h2>{{categoria_seleccionada}}</h2><br>
+    <ul style="list-style:none">
     {% for producto in lista_productos %}
         <li>
-            <a href="{% url 'SITIO:producto' producto.id %}">
-                {{producto}}
-            </a>
+            <div class="d-flex">
+                <div>
+                    <a href="{% url 'SITIO:producto' producto.id %}">
+                        <img src="{{producto.imagen.url}}" class="card-img-top" style="width: 120px">
+                    </a>
+                </div>   
+                <div class="d-flex flex-column justify-content-center pl-4">
+                    <a href="{% url 'SITIO:producto' producto.id %}">
+                        {{producto.titulo}}
+                    </a>
+                </div>
+            </div>
         </li>
     {% endfor %}
+    </ul>
     {% endif %}
 </center>
 {% endblock %}

@@ -9,29 +9,37 @@
 <form enctype="multipart/form-data" action="{% url 'SITIO:producto_editar' producto.id%}" method="post" >
     {% csrf_token %}
     <div class="form-group row">
-        <label for="categoria_input"  class="col-sm-2 col-form-label">Categoria:</label> {{ form.categoria }} {{ form.categoria.errors }}
+        <label for="categoria_input"  class="col-sm-2 col-form-label"><b>Categoria:</b></label> {{ form.categoria }} {{ form.categoria.errors }}
     </div>
     <div class="form-group row">
-        <label for="titulo_input"  class="col-sm-2 col-form-label">Titulo:</label> {{ form.titulo }} {{ form.titulo.errors }}
+        <label for="titulo_input"  class="col-sm-2 col-form-label"><b>Titulo:</b></label> {{ form.titulo }} {{ form.titulo.errors }}
     </div>
     <div class="form-group row">
-        <label for="titulo_input"  class="col-sm-2 col-form-label">Precio:</label> {{ form.precio }} {{ form.precio.errors }}
+        <label for="titulo_input"  class="col-sm-2 col-form-label"><b>Precio:</b></label> {{ form.precio }} {{ form.precio.errors }}
     </div>
     <div class="form-group row">
-        <label for="imagen_input"  class="col-sm-2 col-form-label">Imagen Adjunta:</label> {{ form.imagen }} {{ form.imagen.errors }}
+        <label for="imagen_input"  class="col-sm-2 col-form-label"><b>Imagen Adjunta:</b></label> {{ form.imagen }} {{ form.imagen.errors }}
     </div>
-    <img src='{{producto.imagen.url}}'>
-    <br>
+    <div class="col-6 d-flex justify-content-end">
+        <img src='{{producto.imagen.url}}' class="card-img-top" style="width: 200px">
+    </div>
+    <br><br><br>
     <div class="form-group row"  class="col-sm-2 col-form-label">
-        <label for="descripcion_input">&nbsp;&nbsp;&nbsp;Descripcion:&nbsp;&nbsp;&nbsp;&nbsp;</label><br> {{ form.descripcion_producto }} {{ form.descripcion_producto.errors }}
+        <label for="descripcion_input">&nbsp;&nbsp;&nbsp;<b>Descripcion:</b>&nbsp;&nbsp;&nbsp;&nbsp;</label><br> {{ form.descripcion_producto }} {{ form.descripcion_producto.errors }}
         <script>$("#id_descripcion").removeAttr("required");</script>
     </div>
-    <div class="col-auto">
-        <a class="btn btn-secondary" type="button" href="{% url 'SITIO:index'%}">Volver</a>
-        <input type="submit" class="btn btn-primary" value="Editar">
-        <a type="button" class="btn btn-primary"  href="{% url 'SITIO:producto_eliminar' producto.id%}">Eliminar</a>
+    <div class="row">
+        <div>
+            <a class="btn btn-secondary" style="margin: 5px 5px 40px; padding: 11px 60px" type="button" href="{% url 'SITIO:index'%}">Volver</a>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Editar">
+        </div>
+        <div>
+            <a type="button" class="btn btn-danger" style="margin: 5px 5px 40px; padding: 11px 60px" href="{% url 'SITIO:producto_eliminar' producto.id%}">Eliminar</a>
+        </div>
     </div>
     
 </form>
-<a href="{% url 'SITIO:index'%}">Volver</a>
+
 {% endblock %}
