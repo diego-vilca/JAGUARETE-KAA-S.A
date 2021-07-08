@@ -33,7 +33,7 @@
 <ul style="list-style:none">
     {% for producto in lista_productos %}
         <li>              
-            <div class="d-flex justify-content-between">
+            <div class="d-flex ">
                 <div>
                 {% if perms.SITIO.change_producto %}
                 <a href="{% url 'SITIO:producto_editar' producto.id %}">

@@ -121,8 +121,8 @@ def acerca_de(request):
         "lista_categorias": Categoria.objects.all(),
     })
 
-@login_required
-@permission_required('SITIO.add_carrito')
+# @login_required
+# @permission_required('SITIO.add_carrito')
 def carrito(request, producto_id=''):
 
     #si entra un producto_id...
@@ -132,11 +132,13 @@ def carrito(request, producto_id=''):
         
 
         #si el carrito del usuario existe...
+
+        #implemento que solo se pueda agregar al carro un solo producto por producto.id
         if carrito:
             if not producto in carrito.lista_productos.all():
                 carrito.lista_productos.add(producto)
-            else:
-                carrito.lista_productos.remove(producto)
+            # else:
+                # carrito.lista_productos.remove(producto)
 
             #actualizo el precio total
             total = 0 

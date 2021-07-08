@@ -15,93 +15,95 @@
         <script src="{% static 'scripts.js' %}"></script>
     </head>
     <body>
-        <div class="container d-flex flex-column min-vh-100">
+        
+            <div class="container d-flex flex-column min-vh-100">
 
-            <!-- Encabezado -->
-            <header>
-                <div id="bloque_login">
-                    {% if user.is_authenticated %}
-                        Estas conectado como:  <b>{{ user.get_username }}</b> <a role="button" class="btn btn-outline-warning btn-sm ml-2" href="{% url 'logout'%}?next={{request.path}}">LOGOUT</a>
-                        {% if perms.SITIO.view_carrito %}
-                        <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'SITIO:carrito' %}">CARRITO</a>
+                <!-- Encabezado -->
+                <header>
+                    <div id="bloque_login">
+                        {% if user.is_authenticated %}
+                            Estas conectado como:  <b>{{ user.get_username }}</b> <a role="button" class="btn btn-outline-warning btn-sm ml-2" href="{% url 'logout'%}?next={{request.path}}">LOGOUT</a>
+                            {% if perms.SITIO.view_carrito %}
+                            <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'SITIO:carrito' %}">CARRITO</a>
+                            {% endif %}
+                        {% else %}                  
+                            <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'login'%}?next={{request.path}}">LOGIN</a>
+                            <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'USUARIOS:registrarse' %}">REGISTRO</a>
                         {% endif %}
-                    {% else %}                  
-                        <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'login'%}?next={{request.path}}">LOGIN</a>
-                        <a role="button" class="btn btn-outline-success btn-sm" href="{% url 'USUARIOS:registrarse' %}">REGISTRO</a>
-                    {% endif %}
-                </div>
-                
-                <h1 class="font-weight-bolder">JAGUARETE S.A.</h1>
-                
-            </header>
-
-            <!-- Menu -->
-            
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'SITIO:index' %}">
-                            HOME
-                        </a>
-                    </li>
+                    </div>
                     
-                    <li class="nav-item dropdown">
-                        <div class="dropdown">
-                            <a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            CATEGORIAS
+                    <h1 class="font-weight-bolder">JAGUARETE S.A.</h1>
+                    
+                </header>
+    
+                <!-- Menu -->
+                
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'SITIO:index' %}">
+                                HOME
                             </a>
-                            <div class="dropdown-menu">
-                                {% for categoria in lista_categorias %}
-                                    <a class="dropdown-item" href="{% url 'SITIO:buscador' categoria.id %}">{{ categoria }}</a>
-                                {% endfor %}
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <div class="dropdown">
+                                <a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                CATEGORIAS
+                                </a>
+                                <div class="dropdown-menu">
+                                    {% for categoria in lista_categorias %}
+                                        <a class="dropdown-item" href="{% url 'SITIO:buscador' categoria.id %}">{{ categoria }}</a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                      
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'SITIO:acerca_de' %}">
-                            ACERCA DE
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="mailto:admin@jaguareteSA.com.ar">
-                            CONTACTO
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        {% if perms.SITIO.add_producto %}
-                        <a class="nav-link" href="{% url 'SITIO:producto_alta' %}">
-                            NUEVO PRODUCTO
-                        </a>
-                        {% endif %}
-                    </li>
-                  </ul>
-                  <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'SITIO:buscador'  %}">
-                    {% csrf_token %}
-                    <input name="busqueda" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" required>
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">BUSCAR</button>
-                  </form>
-                </div>
-              </nav><br><br>
-            
-            {% block content %}
-            {% endblock %}
-
-            <!-- Footer -->
-            <footer class="footer mt-auto text-faded text-center py-5 bg-light">
-                <div class="container">
-                <p class="m-0 mbt">
-                    All rights reserved &copy; 2021 Jaguarete KAA S.A.
-                </p>
-                <p class="m-0 mbt1">Developed by<a href="https://github.com/diego-vilca"> Diego Vilca</a></p>
-                </div>
-            </footer>
-        </div>
+                          
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'SITIO:acerca_de' %}">
+                                ACERCA DE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="mailto:admin@jaguareteSA.com.ar">
+                                CONTACTO
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% if perms.SITIO.add_producto %}
+                            <a class="nav-link" href="{% url 'SITIO:producto_alta' %}">
+                                NUEVO PRODUCTO
+                            </a>
+                            {% endif %}
+                        </li>
+                      </ul>
+                      <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'SITIO:buscador'  %}">
+                        {% csrf_token %}
+                        <input name="busqueda" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" required>
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">BUSCAR</button>
+                      </form>
+                    </div>
+                  </nav><br><br>
+                
+                {% block content %}
+                {% endblock %}
+    
+                <!-- Footer -->
+                <footer class="footer mt-auto text-faded text-center py-5 bg-light">
+                    <div class="container">
+                    <p class="m-0 mbt">
+                        All rights reserved &copy; 2021 Jaguarete KAA S.A.
+                    </p>
+                    <p class="m-0 mbt1">Developed by<a href="https://github.com/diego-vilca"> Diego Vilca</a></p>
+                    </div>
+                </footer>
+            </div>
+        
     </body>
 </html>
